@@ -33,3 +33,16 @@ public class TableOfContents: Ul {
         return self
     }
 }
+
+public class TableOfContentsItem: Li {
+    open class override var name: String { "\(Li.self)".lowercased() }
+    
+    required public init() {
+        super.init()
+    }
+    
+    public init (id: String, title: String, active: Bool = false) {
+        super.init()
+        self.appendChild(A(title).href("#\(id)").class(active ? "active" : ""))
+    }
+}
