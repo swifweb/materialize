@@ -31,23 +31,6 @@ extension BaseContentElement {
         }
     }
     
-    public enum MaterialIconSize: String {
-        case tiny, small, medium, large
-        
-        func map<T>(_ handler: (Self) -> T) -> T {
-            handler(self)
-        }
-        
-        var `class`: Class {
-            switch self {
-            case .tiny: return .tiny
-            case .small: return .small
-            case .medium: return .medium
-            case .large: return .large
-            }
-        }
-    }
-    
     @discardableResult
     public func materialButton(
         type: ButtonType = .raised,
@@ -100,22 +83,9 @@ extension BaseContentElement {
         return self
     }
     
-    public enum MaterialIconSide: String {
-        case left, right
-    }
-    
     @discardableResult
-    public func materialIcon(_ icon: MaterialIcon, size: MaterialIconSize? = nil, side: MaterialIconSide? = nil) -> Self {
-        let i = I(icon.rawValue).class(.materialIcons)
-        if let side = side {
-            i.class(.init(stringLiteral: side.rawValue))
-        }
-        if let size = size {
-            i.class(.init(stringLiteral: size.rawValue))
-        }
-        self.body {
-            i
-        }
+    public func addMaterialIcon(_ icon: MaterialIcon) -> Self {
+        self.appendChild(icon)
         return self
     }
 }
@@ -143,7 +113,7 @@ public class FloatingActionButton: Div {
     public init (
         icon: MaterialIcon,
         color: MaterialColor,
-        size: MaterialIconSize = .large,
+        size: ButtonSize = .large,
         waves: ButtonWaveType = .light,
         direction: Direction = .top,
         mode: Mode = .hover
@@ -167,19 +137,9 @@ public class FloatingActionButton: Div {
         }
         self.body {
             A()
-                .materialButton(
-                    type: .floating,
-                    size: size.map {
-                        switch $0 {
-                        case .tiny, .small: return .small
-                        case .medium, .large: return .large
-                        }
-                    }
-                )
+                .materialButton(type: .floating, size: size)
                 .class(color.classes)
-                .body {
-                    I(icon.rawValue).class(.materialIcons).class(size.class)
-                }
+                .body { icon }
             self.ul
         }
     }
@@ -208,12 +168,12 @@ public class FloatingActionButton: Div {
     }
     
     @discardableResult
-    public func item<H: URLConformable>(_ icon: MaterialIcon, color: MaterialColor, href: H = "#!") -> Self {
+    public func item<H: URLConformable>(icon: MaterialIcon, color: MaterialColor, href: H = "#!") -> Self {
         if mode == .toolbar {
             self.ul.appendChild(
                 Li {
                     A {
-                        I(icon.rawValue).class(.materialIcons)
+                        icon
                     }
                     .href(href)
                 }
@@ -222,7 +182,7 @@ public class FloatingActionButton: Div {
             self.ul.appendChild(
                 Li {
                     A {
-                        I(icon.rawValue).class(.materialIcons)
+                        icon
                     }
                     .href(href)
                     .class(.btnFloating)

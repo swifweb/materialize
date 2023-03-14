@@ -35,8 +35,8 @@ public class Navbar: Nav {
         self.closeSearchIcon
     }
     .class("input-field")
-    lazy var searchIcon = I(MaterialIcon.search.rawValue).class(.materialIcons)
-    lazy var closeSearchIcon = I(MaterialIcon.close.rawValue).class(.materialIcons)
+    lazy var searchIcon = MaterialIcon("search")
+    lazy var closeSearchIcon = MaterialIcon("close")
     
     public private(set) lazy var searchInput = InputSearch()
     
@@ -135,22 +135,13 @@ public class Navbar: Nav {
     @discardableResult
     public func item<U: URLConformable>(
         _ title: String,
-        _ materialIcon: MaterialIcon? = nil,
-        _ materialIconSize: MaterialIconSize? = nil,
-        _ materialIconSide: MaterialIconSide? = nil,
+        icon: MaterialIcon? = nil,
         active: Bool = false,
         href: U
     ) -> Self {
         let a = A(title).href(href)
-        if let materialIcon = materialIcon {
-            let i = I(materialIcon.rawValue)
-            if let materialIconSize = materialIconSize {
-                i.class(.init(stringLiteral: materialIconSize.rawValue))
-            }
-            if let materialIconSide = materialIconSide {
-                i.class(.init(stringLiteral: materialIconSide.rawValue))
-            }
-            a.appendChild(i)
+        if let icon = icon {
+            a.appendChild(icon)
         }
         let li = Li { a }
         if active {
@@ -163,22 +154,13 @@ public class Navbar: Nav {
     @discardableResult
     public func item(
         _ title: String,
-        _ materialIcon: MaterialIcon? = nil,
-        _ materialIconSize: MaterialIconSize? = nil,
-        _ materialIconSide: MaterialIconSide? = nil,
+        icon: MaterialIcon? = nil,
         active: Bool = false,
         _ clickHandler: @escaping () -> Void
     ) -> Self {
         let a = A(title).onClick(clickHandler)
-        if let materialIcon = materialIcon {
-            let i = I(materialIcon.rawValue)
-            if let materialIconSize = materialIconSize {
-                i.class(.init(stringLiteral: materialIconSize.rawValue))
-            }
-            if let materialIconSide = materialIconSide {
-                i.class(.init(stringLiteral: materialIconSide.rawValue))
-            }
-            a.appendChild(i)
+        if let icon = icon {
+            a.appendChild(icon)
         }
         let li = Li { a }
         if active {
@@ -192,8 +174,6 @@ public class Navbar: Nav {
     public func dropdownItem(
         _ title: String,
         icon: MaterialIcon? = nil,
-        iconSize: MaterialIconSize? = nil,
-        iconSide: MaterialIconSide? = nil,
         background: MaterialColor? = nil,
         hover: Bool = true,
         @DOM content: @escaping DOM.Block
@@ -207,19 +187,10 @@ public class Navbar: Nav {
             .href("#!")
             .attribute("data-target", dropdownUl.properties._id)
         if let icon = icon {
-            let i = I(icon.rawValue)
-            if let size = iconSize {
-                i.class(.init(stringLiteral: size.rawValue))
-            }
-            if let side = iconSide {
-                i.class(.init(stringLiteral: side.rawValue))
-            }
-            a.appendChild(i)
+            a.appendChild(icon.side(.right))
         } else {
             a.body {
-                I(MaterialIcon.arrowDropDown.rawValue)
-                    .class(.materialIcons)
-                    .class(.init(stringLiteral: MaterialIconSide.right.rawValue))
+                MaterialIcon("arrow_drop_down").side(.right)
             }
         }
         ul.appendChild(Li { a })
@@ -243,37 +214,26 @@ public class Navbar: Nav {
     @discardableResult
     public func tab(
         _ title: String,
-        _ materialIcon: MaterialIcon? = nil,
-        _ materialIconSize: MaterialIconSize? = nil,
-        _ materialIconSide: MaterialIconSide? = nil,
+        icon: MaterialIcon? = nil,
         disabled: Bool,
         id: String,
         @DOM content: @escaping DOM.Block
     ) -> Self {
-        tab(title, materialIcon, materialIconSize, materialIconSide, disabled: State(wrappedValue: disabled), id: id, content: content)
+        tab(title, icon: icon, disabled: State(wrappedValue: disabled), id: id, content: content)
     }
     
     @discardableResult
     public func tab<D>(
         _ title: String,
-        _ materialIcon: MaterialIcon? = nil,
-        _ materialIconSize: MaterialIconSize? = nil,
-        _ materialIconSide: MaterialIconSide? = nil,
+        icon: MaterialIcon? = nil,
         disabled: D,
         id: String,
         @DOM content: @escaping DOM.Block
     ) -> Self where D: StateConvertible, D.Value == Bool {
         addNavContentIfNeeded()
         let a = A(title).id(.init(stringLiteral: id))
-        if let materialIcon = materialIcon {
-            let i = I(materialIcon.rawValue)
-            if let materialIconSize = materialIconSize {
-                i.class(.init(stringLiteral: materialIconSize.rawValue))
-            }
-            if let materialIconSide = materialIconSide {
-                i.class(.init(stringLiteral: materialIconSide.rawValue))
-            }
-            a.appendChild(i)
+        if let icon = icon {
+            a.appendChild(icon)
         }
         ul.appendChild(Li { a }.class("tab"))
         self.appendChild(Div(content: content).id(.init(stringLiteral: id)).class(.col).class("s12"))
@@ -283,35 +243,24 @@ public class Navbar: Nav {
     @discardableResult
     public func tab<U: URLConformable>(
         _ title: String,
-        _ materialIcon: MaterialIcon? = nil,
-        _ materialIconSize: MaterialIconSize? = nil,
-        _ materialIconSide: MaterialIconSide? = nil,
+        icon: MaterialIcon? = nil,
         disabled: Bool,
         href: U
     ) -> Self {
-        tab(title, materialIcon, materialIconSize, materialIconSide, disabled: State(wrappedValue: disabled), href: href)
+        tab(title, icon: icon, disabled: State(wrappedValue: disabled), href: href)
     }
     
     @discardableResult
     public func tab<U: URLConformable, D>(
         _ title: String,
-        _ materialIcon: MaterialIcon? = nil,
-        _ materialIconSize: MaterialIconSize? = nil,
-        _ materialIconSide: MaterialIconSide? = nil,
+        icon: MaterialIcon? = nil,
         disabled: D,
         href: U
     ) -> Self where D: StateConvertible, D.Value == Bool {
         addNavContentIfNeeded()
         let a = A(title).href(href)
-        if let materialIcon = materialIcon {
-            let i = I(materialIcon.rawValue)
-            if let materialIconSize = materialIconSize {
-                i.class(.init(stringLiteral: materialIconSize.rawValue))
-            }
-            if let materialIconSide = materialIconSide {
-                i.class(.init(stringLiteral: materialIconSide.rawValue))
-            }
-            a.appendChild(i)
+        if let icon = icon {
+            a.appendChild(icon)
         }
         ul.appendChild(Li { a }.class("tab"))
         return self
@@ -320,35 +269,24 @@ public class Navbar: Nav {
     @discardableResult
     public func tab(
         _ title: String,
-        _ materialIcon: MaterialIcon? = nil,
-        _ materialIconSize: MaterialIconSize? = nil,
-        _ materialIconSide: MaterialIconSide? = nil,
+        icon: MaterialIcon? = nil,
         disabled: Bool,
         _ clickHandler: @escaping () -> Void
     ) -> Self {
-        tab(title, materialIcon, materialIconSize, materialIconSide, disabled: State(wrappedValue: disabled), clickHandler)
+        tab(title, icon: icon, disabled: State(wrappedValue: disabled), clickHandler)
     }
     
     @discardableResult
     public func tab<D>(
         _ title: String,
-        _ materialIcon: MaterialIcon? = nil,
-        _ materialIconSize: MaterialIconSize? = nil,
-        _ materialIconSide: MaterialIconSide? = nil,
+        icon: MaterialIcon? = nil,
         disabled: D,
         _ clickHandler: @escaping () -> Void
     ) -> Self where D: StateConvertible, D.Value == Bool {
         addNavContentIfNeeded()
         let a = A(title).onClick(clickHandler)
-        if let materialIcon = materialIcon {
-            let i = I(materialIcon.rawValue)
-            if let materialIconSize = materialIconSize {
-                i.class(.init(stringLiteral: materialIconSize.rawValue))
-            }
-            if let materialIconSide = materialIconSide {
-                i.class(.init(stringLiteral: materialIconSide.rawValue))
-            }
-            a.appendChild(i)
+        if let icon = icon {
+            a.appendChild(icon)
         }
         ul.appendChild(Li { a }.class("tab"))
         return self
@@ -365,22 +303,13 @@ public class Navbar: Nav {
     @discardableResult
     public func sideItem<U: URLConformable>(
         _ title: String,
-        _ materialIcon: MaterialIcon? = nil,
-        _ materialIconSize: MaterialIconSize? = nil,
-        _ materialIconSide: MaterialIconSide? = nil,
+        icon: MaterialIcon? = nil,
         active: Bool = false,
         href: U
     ) -> Self {
         let a = A(title).href(href)
-        if let materialIcon = materialIcon {
-            let i = I(materialIcon.rawValue)
-            if let materialIconSize = materialIconSize {
-                i.class(.init(stringLiteral: materialIconSize.rawValue))
-            }
-            if let materialIconSide = materialIconSide {
-                i.class(.init(stringLiteral: materialIconSide.rawValue))
-            }
-            a.appendChild(i)
+        if let icon = icon {
+            a.appendChild(icon)
         }
         let li = Li { a }
         if active {
@@ -393,22 +322,13 @@ public class Navbar: Nav {
     @discardableResult
     public func sideItem(
         _ title: String,
-        _ materialIcon: MaterialIcon? = nil,
-        _ materialIconSize: MaterialIconSize? = nil,
-        _ materialIconSide: MaterialIconSide? = nil,
+        icon: MaterialIcon? = nil,
         active: Bool = false,
         _ clickHandler: @escaping () -> Void
     ) -> Self {
         let a = A(title).onClick(clickHandler)
-        if let materialIcon = materialIcon {
-            let i = I(materialIcon.rawValue)
-            if let materialIconSize = materialIconSize {
-                i.class(.init(stringLiteral: materialIconSize.rawValue))
-            }
-            if let materialIconSide = materialIconSide {
-                i.class(.init(stringLiteral: materialIconSide.rawValue))
-            }
-            a.appendChild(i)
+        if let icon = icon {
+            a.appendChild(icon)
         }
         let li = Li { a }
         if active {
@@ -442,14 +362,14 @@ public class Navbar: Nav {
     }
     
     @discardableResult
-    public func searchIcon(_ icon: MaterialIcon) -> Self {
-        _ = searchIcon.innerText(icon.rawValue)
+    public func searchIcon(_ type: String) -> Self {
+        searchIcon.type(type)
         return self
     }
     
     @discardableResult
-    public func closeSearchIcon(_ icon: MaterialIcon) -> Self {
-        _ = closeSearchIcon.innerText(icon.rawValue)
+    public func closeSearchIcon(_ type: String) -> Self {
+        closeSearchIcon.type(type)
         return self
     }
 }
@@ -474,24 +394,15 @@ public class DropdownItem: Li {
     
     public init <U: URLConformable>(
         _ title: String,
-        _ color: MaterialColor,
+        color: MaterialColor,
         icon: MaterialIcon? = nil,
-        iconSize: MaterialIconSize? = nil,
-        iconSide: MaterialIconSide? = nil,
         active: Bool = false,
         href: U = "#!"
     ) {
         super.init()
         let a = A(title).href(href).textColor(color)
         if let icon = icon {
-            let i = I(icon.rawValue)
-            if let size = iconSize {
-                i.class(.init(stringLiteral: size.rawValue))
-            }
-            if let side = iconSide {
-                i.class(.init(stringLiteral: side.rawValue))
-            }
-            a.appendChild(i)
+            a.appendChild(icon)
         }
         if active {
             self.class("active")
@@ -501,24 +412,15 @@ public class DropdownItem: Li {
     
     public init (
         _ title: String,
-        _ color: MaterialColor,
+        color: MaterialColor,
         icon: MaterialIcon? = nil,
-        iconSize: MaterialIconSize? = nil,
-        iconSide: MaterialIconSide? = nil,
         active: Bool = false,
         _ clickHandler: @escaping () -> Void
     ) {
         super.init()
         let a = A(title).href("#!").onClick(clickHandler).textColor(color)
         if let icon = icon {
-            let i = I(icon.rawValue)
-            if let size = iconSize {
-                i.class(.init(stringLiteral: size.rawValue))
-            }
-            if let side = iconSide {
-                i.class(.init(stringLiteral: side.rawValue))
-            }
-            a.appendChild(i)
+            a.appendChild(icon)
         }
         if active {
             self.class("active")

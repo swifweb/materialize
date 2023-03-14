@@ -36,12 +36,12 @@ public class Pagination: Ul {
     @discardableResult
     public func back<U: URLConformable>(
         disabled: Bool = true,
-        icon: MaterialIcon = .chevron_left,
+        icon: MaterialIcon = "chevron_left",
         href: U = "#!"
     ) -> Self {
         self.appendChild(Li{
             A {
-                I(icon.rawValue).class(.materialIcons)
+                icon
             }
             .href(href)
         }
@@ -52,12 +52,12 @@ public class Pagination: Ul {
     @discardableResult
     public func back(
         disabled: Bool = true,
-        icon: MaterialIcon = .chevron_left,
+        icon: MaterialIcon = "chevron_left",
         _ clickHandler: @escaping () -> Void
     ) -> Self {
         self.appendChild(Li{
             A {
-                I(icon.rawValue).class(.materialIcons)
+                icon
             }
             .href("#!")
             .onClick(clickHandler)
@@ -116,12 +116,12 @@ public class Pagination: Ul {
     @discardableResult
     public func forward<U: URLConformable>(
         disabled: Bool = true,
-        icon: MaterialIcon = .chevron_right,
+        icon: MaterialIcon = "chevron_right",
         href: U
     ) -> Self {
         self.appendChild(Li{
             A {
-                I(icon.rawValue).class(.materialIcons)
+                icon
             }
             .href(href)
         }
@@ -132,12 +132,12 @@ public class Pagination: Ul {
     @discardableResult
     public func forward(
         disabled: Bool = true,
-        icon: MaterialIcon = .chevron_right,
+        icon: MaterialIcon = "chevron_right",
         _ clickHandler: @escaping () -> Void
     ) -> Self {
         self.appendChild(Li{
             A {
-                I(icon.rawValue).class(.materialIcons)
+                icon
             }
             .href("#!")
             .onClick(clickHandler)

@@ -290,12 +290,9 @@ public class CardImage: Div {
                     type: .floatingHalfWay,
                     size: size
                 )
-                .materialIcon(icon, size: size.map {
-                    switch $0 {
-                    case .large: return .large
-                    case .small: return .small
-                    }
-                })
+                .body {
+                    icon
+                }
                 .materialBackground(background)
                 .textColor(color)
         )
