@@ -5,6 +5,7 @@
 //  Created by Mihael Isaev on 14.03.2023.
 //
 
+import Foundation
 import Web
 
 public class MaterialIcon: BaseContentElement, ExpressibleByStringLiteral {
@@ -17,6 +18,13 @@ public class MaterialIcon: BaseContentElement, ExpressibleByStringLiteral {
     required public init (_ type: String) {
         super.init()
         self.innerText = type
+    }
+    
+    public convenience init (_ type: State<String>) {
+        self.init(type.wrappedValue)
+        type.listen { [weak self] in
+            self?.type($0)
+        }
     }
     
     required public init (stringLiteral type: String) {
@@ -33,6 +41,14 @@ public class MaterialIcon: BaseContentElement, ExpressibleByStringLiteral {
     public func type(_ type: String) -> Self {
         self.innerText = type
         return self
+    }
+    
+    @discardableResult
+    public func type(_ type: State<String>) -> Self {
+        type.listen { [weak self] in
+            self?.type($0)
+        }
+        return self.type(type.wrappedValue)
     }
     
     var previousSize: MaterialIconSize?
@@ -54,6 +70,14 @@ public class MaterialIcon: BaseContentElement, ExpressibleByStringLiteral {
         return self
     }
     
+    @discardableResult
+    public func size(_ size: State<MaterialIconSize?>) -> Self {
+        size.listen { [weak self] in
+            self?.size($0)
+        }
+        return self.size(size.wrappedValue)
+    }
+    
     var previousSide: MaterialIconSide?
     
     @discardableResult
@@ -71,6 +95,14 @@ public class MaterialIcon: BaseContentElement, ExpressibleByStringLiteral {
         self.class(Class(side.rawValue))
         previousSide = side
         return self
+    }
+    
+    @discardableResult
+    public func side(_ side: State<MaterialIconSide?>) -> Self {
+        side.listen { [weak self] in
+            self?.side($0)
+        }
+        return self.side(side.wrappedValue)
     }
 }
 
