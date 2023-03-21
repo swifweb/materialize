@@ -148,7 +148,13 @@ extension BaseElement {
     }
 }
 
-public struct MaterialColor {
+public class MaterialColorWithModifier: MaterialColor {
+    fileprivate init (_ classes: [Class], _ modifier: ColorModifier) {
+        super.init(classes + [.init(stringLiteral: modifier.rawValue)])
+    }
+}
+
+public class MaterialColor {
     let classes: [Class]
     
     public enum ColorModifier: String {
@@ -164,216 +170,88 @@ public struct MaterialColor {
         case darken5 = "darken-5"
     }
     
-    private init (_ class: Class, _ modifier: ColorModifier?) {
-        var classes: [Class] = [`class`]
-        if let modifier = modifier {
-            classes.append(.init(stringLiteral: modifier.rawValue))
-        }
+    fileprivate init (_ classes: [Class]) {
         self.classes = classes
     }
     
-    /// Materialize Red color
-    public static var red: Self {
-        .init(.red, nil)
+    private init (_ class: Class) {
+        self.classes = [`class`]
     }
+    
+    public var lighten1: MaterialColorWithModifier { .init(classes, .lighten1) }
+    public var lighten2: MaterialColorWithModifier { .init(classes, .lighten2) }
+    public var lighten3: MaterialColorWithModifier { .init(classes, .lighten3) }
+    public var lighten4: MaterialColorWithModifier { .init(classes, .lighten4) }
+    public var lighten5: MaterialColorWithModifier { .init(classes, .lighten5) }
+    public var darken1: MaterialColorWithModifier { .init(classes, .darken1) }
+    public var darken2: MaterialColorWithModifier { .init(classes, .darken2) }
+    public var darken3: MaterialColorWithModifier { .init(classes, .darken3) }
+    public var darken4: MaterialColorWithModifier { .init(classes, .darken4) }
+    public var darken5: MaterialColorWithModifier { .init(classes, .darken5) }
     
     /// Materialize Red color
-    @discardableResult
-    public static func red(_ modifier: ColorModifier) -> Self {
-        .init(.red, modifier)
-    }
+    public static var red: MaterialColor { .init(.red) }
     
     /// Materialize Pink color
-    public static var pink: Self {
-        .init(.pink, nil)
-    }
-    
-    /// Materialize Pink color
-    public static func pink(_ modifier: ColorModifier) -> Self {
-        .init(.pink, modifier)
-    }
+    public static var pink: MaterialColor { .init(.pink) }
     
     /// Materialize Purple color
-    public static var purple: Self {
-        .init(.purple, nil)
-    }
-    
-    /// Materialize Purple color
-    public static func purple(_ modifier: ColorModifier) -> Self {
-        .init(.purple, modifier)
-    }
+    public static var purple: MaterialColor { .init(.purple) }
     
     /// Materialize Deep-Purple color
-    public static var deepPurple: Self {
-        .init(.deepPurple, nil)
-    }
-    
-    /// Materialize Deep-Purple color
-    public static func deepPurple(_ modifier: ColorModifier) -> Self {
-        .init(.deepPurple, modifier)
-    }
+    public static var deepPurple: MaterialColor { .init(.deepPurple) }
     
     /// Materialize Indigo color
-    public static var indigo: Self {
-        .init(.indigo, nil)
-    }
-    
-    /// Materialize Indigo color
-    public static func indigo(_ modifier: ColorModifier) -> Self {
-        .init(.indigo, modifier)
-    }
+    public static var indigo: MaterialColor { .init(.indigo) }
     
     /// Materialize Blue color
-    public static var blue: Self {
-        .init(.blue, nil)
-    }
-    
-    /// Materialize Blue color
-    public static func blue(_ modifier: ColorModifier) -> Self {
-        .init(.blue, modifier)
-    }
+    public static var blue: MaterialColor { .init(.blue) }
     
     /// Materialize Light-Blue color
-    public static var lightBlue: Self {
-        .init(.lightBlue, nil)
-    }
-    
-    /// Materialize Light-Blue color
-    public static func lightBlue(_ modifier: ColorModifier) -> Self {
-        .init(.lightBlue, modifier)
-    }
+    public static var lightBlue: MaterialColor { .init(.lightBlue) }
     
     /// Materialize Cyan color
-    public static var cyan: Self {
-        .init(.cyan, nil)
-    }
-    
-    /// Materialize Cyan color
-    public static func cyan(_ modifier: ColorModifier) -> Self {
-        .init(.cyan, modifier)
-    }
+    public static var cyan: MaterialColor { .init(.cyan) }
     
     /// /// Materialize Teal color
-    public static var teal: Self {
-        .init(.teal, nil)
-    }
-    
-    /// Materialize Teal color
-    public static func teal(_ modifier: ColorModifier) -> Self {
-        .init(.teal, modifier)
-    }
+    public static var teal: MaterialColor { .init(.teal) }
     
     /// Materialize Green color
-    public static var green: Self {
-        .init(.green, nil)
-    }
-    
-    /// Materialize Green color
-    public static func green(_ modifier: ColorModifier) -> Self {
-        .init(.green, modifier)
-    }
+    public static var green: MaterialColor { .init(.green) }
     
     /// Materialize Light-Green color
-    public static var lightGreen: Self {
-        .init(.lightGreen, nil)
-    }
-    
-    /// Materialize Light-Green color
-    public static func lightGreen(_ modifier: ColorModifier) -> Self {
-        .init(.lightGreen, modifier)
-    }
+    public static var lightGreen: MaterialColor { .init(.lightGreen) }
     
     /// Materialize Lime color
-    public static var lime: Self {
-        .init(.lime, nil)
-    }
-    /// Materialize Lime color
-    public static func lime(_ modifier: ColorModifier) -> Self {
-        .init(.lime, modifier)
-    }
+    public static var lime: MaterialColor { .init(.lime) }
     
     /// Materialize Yellow color
-    public static var yellow: Self {
-        .init(.yellow, nil)
-    }
-    
-    /// Materialize Yellow color
-    public static func yellow(_ modifier: ColorModifier) -> Self {
-        .init(.yellow, modifier)
-    }
+    public static var yellow: MaterialColor { .init(.yellow) }
     
     /// Materialize Amber color
-    public static var amber: Self {
-        .init(.amber, nil)
-    }
-    
-    /// Materialize Amber color
-    public static func amber(_ modifier: ColorModifier) -> Self {
-        .init(.amber, modifier)
-    }
+    public static var amber: MaterialColor { .init(.amber) }
     
     /// Materialize Orange color
-    public static var orange: Self {
-        .init(.orange, nil)
-    }
-    
-    /// Materialize Orange color
-    public static func orange(_ modifier: ColorModifier) -> Self {
-        .init(.orange, modifier)
-    }
+    public static var orange: MaterialColor { .init(.orange) }
     
     /// Materialize Deep-Orange color
-    public static var deepOrange: Self {
-        .init(.deepOrange, nil)
-    }
-    
-    /// Materialize Deep-Orange color
-    public static func deepOrange(_ modifier: ColorModifier) -> Self {
-        .init(.deepOrange, modifier)
-    }
+    public static var deepOrange: MaterialColor { .init(.deepOrange) }
     
     /// Materialize Brown color
-    public static var brown: Self {
-        .init(.brown, nil)
-    }
-    
-    /// Materialize Brown color
-    public static func brown(_ modifier: ColorModifier) -> Self {
-        .init(.brown, modifier)
-    }
+    public static var brown: MaterialColor { .init(.brown) }
     
     /// Materialize Grey color
-    public static var grey: Self {
-        .init(.grey, nil)
-    }
-    
-    /// Materialize Grey color
-    public static func grey(_ modifier: ColorModifier) -> Self {
-        .init(.grey, modifier)
-    }
+    public static var grey: MaterialColor { .init(.grey) }
     
     /// Materialize Blue-Grey color
-    public static var blueGrey: Self {
-        .init(.blueGrey, nil)
-    }
-    
-    /// Materialize Blue-Grey color
-    public static func blueGrey(_ modifier: ColorModifier) -> Self {
-        .init(.blueGrey, modifier)
-    }
+    public static var blueGrey: MaterialColor { .init(.blueGrey) }
     
     /// Materialize Black color
-    public static var black: Self {
-        .init(.black, nil)
-    }
+    public static var black: MaterialColor { .init(.black) }
     
     /// Materialize White color
-    public static var white: Self {
-        .init(.white, nil)
-    }
+    public static var white: MaterialColor { .init(.white) }
     
     /// Materialize Transparent color
-    public static var transparent: Self {
-        .init(.transparent, nil)
-    }
+    public static var transparent: MaterialColor { .init(.transparent) }
 }
