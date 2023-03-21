@@ -171,6 +171,7 @@ extension Class {
     
     public static var left: Class { "left" }
     public static var right: Class { "right" }
+    public static var center: Class { "center" }
     
     // MARK: Hiding/Showing Content
     
@@ -332,6 +333,7 @@ extension Class {
     public static var btnFloating: Class { "btn-floating" }
     public static var wavesEffect: Class { "waves-effect" }
     public static var wavesRipple: Class { "waves-ripple" }
+    public static var wavesCircle: Class { "waves-circle" }
     public static var materialIcons: Class { "material-icons" }
     public static var disabled: Class { "disabled" }
     
