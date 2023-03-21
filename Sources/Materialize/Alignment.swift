@@ -60,22 +60,30 @@ extension BaseContentElement: TextCenterable {}
 
 public protocol QuickFloatable: ClassAttrable {
     @discardableResult
-    func left() -> Self
+    func floatLeft() -> Self
     @discardableResult
-    func right() -> Self
+    func floatRight() -> Self
+    @discardableResult
+    func floatCenter() -> Self
 }
 
 extension QuickFloatable {
     /// Quickly float things to left
     @discardableResult
-    public func left() -> Self {
+    public func floatLeft() -> Self {
         self.class(.left)
     }
     
     /// Quickly float things to right
     @discardableResult
-    public func right() -> Self {
+    public func floatRight() -> Self {
         self.class(.right)
+    }
+    
+    /// Quickly float things to center
+    @discardableResult
+    public func floatCenter() -> Self {
+        self.class(.center)
     }
 }
 
