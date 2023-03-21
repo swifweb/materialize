@@ -8,88 +8,6 @@
 import Web
 import JavaScriptKit
 
-extension BaseContentElement {
-    public enum ButtonWaveType: String {
-        case light = "waves-light"
-        case red = "waves-red"
-        case yellow = "waves-yellow"
-        case orange = "waves-orange"
-        case purple = "waves-purple"
-        case green = "waves-green"
-        case teal = "waves-teal"
-    }
-    
-    public enum ButtonType {
-        case raised, floating, floatingHalfWay, flat
-    }
-    
-    public enum ButtonSize {
-        case small, large
-        
-        func map<T>(_ handler: (Self) -> T) -> T {
-            handler(self)
-        }
-    }
-    
-    @discardableResult
-    public func materialButton(
-        type: ButtonType = .raised,
-        size: ButtonSize? = nil,
-        waves: ButtonWaveType = .light,
-        wavesRipple: Bool = false,
-        disabled: Bool = false
-    ) -> Self {
-        materialButton(type: type, size: size, waves: waves, wavesRipple: wavesRipple, disabled: State(wrappedValue: disabled))
-    }
-    
-    @discardableResult
-    public func materialButton<D>(
-        type: ButtonType = .raised,
-        size: ButtonSize? = nil,
-        waves: ButtonWaveType = .light,
-        wavesRipple: Bool = false,
-        disabled: D
-    ) -> Self where D: StateConvertible, D.Value == Bool {
-        var classes: [Class] = [.wavesEffect]
-        classes.append(.init(stringLiteral: waves.rawValue))
-        if wavesRipple {
-            classes.append(.wavesRipple)
-        }
-        switch type {
-        case .raised: break
-        case .floating: classes.append(.btnFloating)
-        case .floatingHalfWay: classes.append(contentsOf: [.btnFloating, .init(stringLiteral: "halfway-fab")])
-        case .flat: classes.append(.btnFlat)
-        }
-        if let size = size {
-            switch size {
-            case .small: classes.append(.btnSmall)
-            case .large: classes.append(.btnLarge)
-            }
-        } else {
-            classes.append(.btn)
-        }
-        func applyDisabled(_ disabled: Bool) {
-            if disabled {
-                self.class(.disabled)
-            } else {
-                self.removeClass(.disabled)
-            }
-        }
-        applyDisabled(disabled.stateValue.wrappedValue)
-        disabled.stateValue.listen(applyDisabled)
-        self.class(classes)
-        Materialize.setupWaves()
-        return self
-    }
-    
-    @discardableResult
-    public func addMaterialIcon(_ icon: MaterialIcon) -> Self {
-        self.appendChild(icon)
-        return self
-    }
-}
-
 public class FloatingActionButton: Div {
     open class override var name: String { "\(Div.self)".lowercased() }
     
@@ -103,9 +21,7 @@ public class FloatingActionButton: Div {
     var halfway = false
     
     public enum Mode {
-        case hover
-        case click
-        case toolbar
+        case hover, click, toolbar
     }
     
     var mode: Mode = .click
@@ -114,7 +30,7 @@ public class FloatingActionButton: Div {
         icon: MaterialIcon,
         color: MaterialColor,
         size: ButtonSize = .large,
-        waves: ButtonWaveType = .light,
+        waves: MaterialWaves = .light,
         direction: Direction = .top,
         mode: Mode = .hover
     ) {
@@ -137,7 +53,7 @@ public class FloatingActionButton: Div {
         }
         self.body {
             A()
-                .materialButton(type: .floating, size: size)
+                .materialButton(type: .floating, size: size, waves: waves)
                 .class(color.classes)
                 .body { icon }
             self.ul
@@ -185,6 +101,40 @@ public class FloatingActionButton: Div {
                         icon
                     }
                     .href(href)
+                    .class(.btnFloating)
+                    .class(color.classes)
+                }
+            )
+        }
+        return self
+    }
+    
+    @discardableResult
+    public func item(icon: MaterialIcon, color: MaterialColor, handler: @escaping () -> Void) -> Self {
+        if mode == .toolbar {
+            self.ul.appendChild(
+                Li {
+                    A {
+                        icon
+                    }
+                    .href("")
+                    .onClick { a, event in
+                        event.preventDefault()
+                        handler()
+                    }
+                }
+            )
+        } else {
+            self.ul.appendChild(
+                Li {
+                    A {
+                        icon
+                    }
+                    .href("")
+                    .onClick { a, event in
+                        event.preventDefault()
+                        handler()
+                    }
                     .class(.btnFloating)
                     .class(color.classes)
                 }
