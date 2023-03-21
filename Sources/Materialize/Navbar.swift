@@ -231,11 +231,11 @@ public class Navbar: Nav {
         @DOM content: @escaping DOM.Block
     ) -> Self where D: StateConvertible, D.Value == Bool {
         addNavContentIfNeeded()
-        let a = A(title).id(.init(stringLiteral: id))
+        let a = A(title).href("#\(id)")
         if let icon = icon {
             a.appendChild(icon)
         }
-        ul.appendChild(Li { a }.class("tab"))
+        tabsUl.appendChild(Li { a }.class("tab"))
         self.appendChild(Div(content: content).id(.init(stringLiteral: id)).class(.col).class("s12"))
         return self
     }
@@ -262,7 +262,7 @@ public class Navbar: Nav {
         if let icon = icon {
             a.appendChild(icon)
         }
-        ul.appendChild(Li { a }.class("tab"))
+        tabsUl.appendChild(Li { a }.class("tab"))
         return self
     }
     
@@ -288,7 +288,7 @@ public class Navbar: Nav {
         if let icon = icon {
             a.appendChild(icon)
         }
-        ul.appendChild(Li { a }.class("tab"))
+        tabsUl.appendChild(Li { a }.class("tab"))
         return self
     }
     
