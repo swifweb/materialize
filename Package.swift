@@ -19,6 +19,7 @@ let package = Package(
             .copy("css/materialize.min.css"),
             .copy("css"),
             .copy("js/materialize.min.js"),
+            .copy("js/materialize.js"),
             .copy("js")
         ]),
         .testTarget(name: "MaterializeTests", dependencies: ["Materialize"])
