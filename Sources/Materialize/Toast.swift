@@ -37,7 +37,7 @@ public class Toast {
             switch item {
             case .elements(let els): elements.append(contentsOf: els)
             case .items(let items): items.forEach { parseDOMItem($0) }
-            case .forEach(let fr): fr.allItems().forEach { parseDOMItem($0.domContentItem) }
+            case .print(let print): Console.log(print.items)
             case .none: break
             }
         }
