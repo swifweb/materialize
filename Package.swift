@@ -10,7 +10,7 @@ let package = Package(
         .library(name: "Materialize", type: .static, targets: ["Materialize"])
     ],
     dependencies: [
-        .package(url: "https://github.com/swifweb/web", from: "1.0.0")
+        .package(url: "https://github.com/swifweb/web", from: "2.0.0-nightly.5")
     ],
     targets: [
         .target(name: "Materialize", dependencies: [
